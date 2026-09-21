@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#050505">
 
-    <title>Galaxia de Flores Amarillas</title>
+    <title>Feliz Día de las Flores Amarillas</title>
 
     <style>
         :root {
-            --amarillo: #ffe600;
-            --amarillo-secundario: #ffb700;
-            --fondo: #050505;
+            --amarillo-principal: #ffd700;
+            --amarillo-oscuro: #b38600;
+            --amarillo-suave: #fff9e6;
+            --amarillo-fondo: #ffe680;
         }
 
         * {
@@ -21,398 +21,237 @@
         html,
         body {
             width: 100%;
-            height: 100%;
-            margin: 0;
-            overflow: hidden;
-            background: var(--fondo);
-            font-family: Arial, sans-serif;
+            min-height: 100%;
         }
 
         body {
-            position: relative;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(
+                to bottom,
+                var(--amarillo-suave),
+                var(--amarillo-fondo)
+            );
         }
 
-        canvas {
+        /* Contenedor de las flores cayendo */
+        #flor-container {
             position: fixed;
             inset: 0;
-            display: block;
             width: 100%;
             height: 100%;
-            background: var(--fondo);
-        }
-
-        .contenido {
-            position: fixed;
-            inset: 0;
-            z-index: 2;
+            overflow: hidden;
             pointer-events: none;
+            z-index: 1;
         }
 
-        #play-btn {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-
-            border: 0;
-            border-radius: 999px;
-            padding: 12px 22px;
-
-            color: #171000;
-            background: var(--amarillo);
-
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            pointer-events: auto;
-
-            box-shadow:
-                0 0 12px rgba(255, 230, 0, 0.55),
-                0 0 25px rgba(255, 230, 0, 0.2);
-
-            transition:
-                background 0.25s ease,
-                transform 0.25s ease,
-                box-shadow 0.25s ease;
-        }
-
-        #play-btn:hover {
-            background: #fff;
-            transform: translateX(-50%) scale(1.05);
-            box-shadow:
-                0 0 18px rgba(255, 230, 0, 0.8),
-                0 0 35px rgba(255, 230, 0, 0.35);
-        }
-
-        #play-btn:focus-visible {
-            outline: 3px solid white;
-            outline-offset: 4px;
-        }
-
-        #message {
-            position: absolute;
-            bottom: 22px;
-            left: 0;
-            width: 100%;
-            padding: 0 15px;
-
-            color: var(--amarillo);
+        /* Tarjeta principal */
+        .tarjeta {
+            position: relative;
+            z-index: 10;
+            width: min(100%, 500px);
+            padding: 40px 30px;
             text-align: center;
-            font-size: clamp(1rem, 3vw, 1.5rem);
-            letter-spacing: 2px;
-            line-height: 1.4;
-            text-shadow: 0 0 10px rgba(255, 230, 0, 0.85);
+            background: rgba(255, 255, 255, 0.88);
+            border: 2px solid var(--amarillo-principal);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(230, 180, 0, 0.25);
+            backdrop-filter: blur(8px);
+            animation: aparecer 1.5s ease-out both;
         }
 
+        .icono-principal {
+            margin-bottom: 10px;
+            font-size: 3.5rem;
+            line-height: 1;
+            animation: latido 2s ease-in-out infinite;
+        }
+
+        h1 {
+            margin: 0 0 15px;
+            color: var(--amarillo-oscuro);
+            font-size: clamp(1.8rem, 5vw, 2.2rem);
+            font-weight: 700;
+        }
+
+        p {
+            margin: 0 0 25px;
+            color: #555;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .dedicatoria {
+            margin-bottom: 0;
+            color: #cc9900;
+            font-style: italic;
+            font-weight: 600;
+        }
+
+        /* Flores y elementos decorativos */
+        .flor-cayendo {
+            position: absolute;
+            top: -60px;
+            left: 0;
+            user-select: none;
+            font-size: var(--tamano, 24px);
+            animation-name: caer;
+            animation-duration: var(--duracion, 6s);
+            animation-delay: var(--retraso, 0s);
+            animation-timing-function: linear;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes caer {
+            0% {
+                transform: translate3d(0, -60px, 0) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate3d(var(--movimiento, 0px), 110vh, 0)
+                    rotate(360deg);
+                opacity: 0.25;
+            }
+        }
+
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes latido {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        /* Respeta la configuración del usuario para reducir animaciones */
         @media (prefers-reduced-motion: reduce) {
-            #play-btn {
-                transition: none;
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+            }
+
+            .flor-cayendo {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+
+            .tarjeta {
+                padding: 30px 20px;
+            }
+
+            p {
+                font-size: 1rem;
             }
         }
     </style>
 </head>
 
 <body>
+    <div id="flor-container" aria-hidden="true"></div>
 
-    <canvas id="galaxyCanvas" aria-hidden="true"></canvas>
+    <main class="tarjeta">
+        <div class="icono-principal" aria-hidden="true">🌻</div>
 
-    <div class="contenido">
-        <button
-            id="play-btn"
-            type="button"
-            aria-pressed="false"
-            aria-label="Reproducir música">
-            Reproducir música 🎶
-        </button>
+        <h1>Para Alguien Especial</h1>
 
-        <div id="message">
-            Para ti, un rincón de estrellas y flores amarillas 🌻
-        </div>
-    </div>
+        <p>
+            Hoy el cielo y la tierra se visten de dorado para celebrar la
+            alegría, el amor y los momentos compartidos. Que estas flores
+            amarillas iluminen tu día tanto como tu sonrisa ilumina la vida de
+            quienes te rodean.
+        </p>
+
+        <p class="dedicatoria">
+            ¡Feliz Día de las Flores Amarillas! 💛
+        </p>
+    </main>
 
     <script>
-        'use strict';
+        "use strict";
 
-        const canvas = document.getElementById('galaxyCanvas');
-        const ctx = canvas.getContext('2d', { alpha: false });
+        const container = document.getElementById("flor-container");
 
-        const playButton = document.getElementById('play-btn');
+        const emojisFlores = ["🌻", "🌼", "💛", "🌸", "✨"];
+        const numeroFlores = 50;
 
-        const particles = [];
-        const PARTICLE_COUNT = 300;
-
-        let width = 0;
-        let height = 0;
-        let centerX = 0;
-        let centerY = 0;
-        let pixelRatio = 1;
-        let animationFrame = 0;
-
-        /*
-         * Ajusta el canvas para pantallas normales y Retina.
-         */
-        function resizeCanvas() {
-            width = window.innerWidth;
-            height = window.innerHeight;
-
-            pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
-
-            canvas.width = Math.floor(width * pixelRatio);
-            canvas.height = Math.floor(height * pixelRatio);
-
-            canvas.style.width = `${width}px`;
-            canvas.style.height = `${height}px`;
-
-            ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-
-            centerX = width / 2;
-            centerY = height / 2;
+        function numeroAleatorio(minimo, maximo) {
+            return Math.random() * (maximo - minimo) + minimo;
         }
 
-        /*
-         * Crea las flores distribuidas alrededor del centro.
-         */
-        function createParticles() {
-            particles.length = 0;
+        function crearFlor() {
+            const flor = document.createElement("span");
 
-            const maxRadius = Math.hypot(width / 2, height / 2);
+            const tamano = numeroAleatorio(15, 30);
+            const duracion = numeroAleatorio(4, 8);
+            const retraso = numeroAleatorio(0, 5);
+            const movimiento = numeroAleatorio(-80, 80);
+            const posicionHorizontal = numeroAleatorio(0, 100);
 
-            for (let i = 0; i < PARTICLE_COUNT; i++) {
-                particles.push({
-                    angle: Math.random() * Math.PI * 2,
-                    radius: Math.random() * maxRadius,
-                    size: Math.random() * 2.2 + 0.8,
-                    speed: Math.random() * 0.0018 + 0.0006,
-                    color: Math.random() > 0.3
-                        ? '#ffe600'
-                        : '#ffb700',
-                    opacity: Math.random() * 0.5 + 0.5
-                });
+            flor.className = "flor-cayendo";
+            flor.textContent =
+                emojisFlores[
+                    Math.floor(Math.random() * emojisFlores.length)
+                ];
+
+            flor.style.left = `${posicionHorizontal}vw`;
+            flor.style.setProperty("--tamano", `${tamano}px`);
+            flor.style.setProperty("--duracion", `${duracion}s`);
+            flor.style.setProperty("--retraso", `${retraso}s`);
+            flor.style.setProperty("--movimiento", `${movimiento}px`);
+
+            container.appendChild(flor);
+
+            /*
+             * Se elimina después de que termine la animación,
+             * incluyendo el tiempo de retraso inicial.
+             */
+            const tiempoTotal = (duracion + retraso + 0.5) * 1000;
+
+            setTimeout(() => {
+                flor.remove();
+                crearFlor();
+            }, tiempoTotal);
+        }
+
+        function iniciarLluviaDeFlores() {
+            for (let i = 0; i < numeroFlores; i++) {
+                setTimeout(crearFlor, i * 150);
             }
         }
 
-        /*
-         * Dibuja una flor de cinco pétalos.
-         */
-        function drawFlower(x, y, size, color, opacity) {
-            ctx.save();
-
-            ctx.translate(x, y);
-            ctx.globalAlpha = opacity;
-            ctx.fillStyle = color;
-
-            for (let i = 0; i < 5; i++) {
-                ctx.save();
-
-                ctx.rotate((Math.PI * 2 * i) / 5);
-
-                ctx.beginPath();
-                ctx.ellipse(
-                    0,
-                    size * 0.9,
-                    size * 0.65,
-                    size * 1.15,
-                    0,
-                    0,
-                    Math.PI * 2
-                );
-                ctx.fill();
-
-                ctx.restore();
-            }
-
-            ctx.beginPath();
-            ctx.fillStyle = '#654321';
-            ctx.arc(0, 0, size * 0.55, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.restore();
-        }
-
-        /*
-         * Dibuja y anima la galaxia.
-         */
-        function animate() {
-            ctx.globalAlpha = 1;
-            ctx.fillStyle = 'rgba(5, 5, 5, 0.2)';
-            ctx.fillRect(0, 0, width, height);
-
-            for (const particle of particles) {
-                particle.angle += particle.speed;
-
-                const x = centerX + Math.cos(particle.angle) * particle.radius;
-                const y = centerY + Math.sin(particle.angle) * particle.radius;
-
-                drawFlower(
-                    x,
-                    y,
-                    particle.size,
-                    particle.color,
-                    particle.opacity
-                );
-            }
-
-            animationFrame = requestAnimationFrame(animate);
-        }
-
-        /*
-         * Música generada con Web Audio API.
-         * Así no dependemos de un enlace MP3 externo.
-         */
-        let audioContext = null;
-        let masterGain = null;
-        let musicTimer = null;
-        let noteIndex = 0;
-
-        const melody = [
-            261.63, 329.63, 392.00, 523.25,
-            392.00, 329.63, 293.66, 349.23,
-            440.00, 523.25, 440.00, 349.23,
-            392.00, 329.63, 293.66, 261.63
-        ];
-
-        function startMusic() {
-            if (!audioContext) {
-                const AudioContextClass =
-                    window.AudioContext || window.webkitAudioContext;
-
-                if (!AudioContextClass) {
-                    throw new Error(
-                        'Este navegador no soporta Web Audio API.'
-                    );
-                }
-
-                audioContext = new AudioContextClass();
-
-                masterGain = audioContext.createGain();
-                masterGain.gain.value = 0.055;
-                masterGain.connect(audioContext.destination);
-            }
-
-            if (audioContext.state === 'suspended') {
-                return audioContext.resume().then(() => {
-                    playNextNote();
-                });
-            }
-
-            playNextNote();
-            return Promise.resolve();
-        }
-
-        function playNextNote() {
-            if (!audioContext || !masterGain) {
-                return;
-            }
-
-            const oscillator = audioContext.createOscillator();
-            const gain = audioContext.createGain();
-
-            const now = audioContext.currentTime;
-            const frequency = melody[noteIndex];
-
-            oscillator.type = 'sine';
-            oscillator.frequency.setValueAtTime(frequency, now);
-
-            gain.gain.setValueAtTime(0, now);
-            gain.gain.linearRampToValueAtTime(0.7, now + 0.03);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
-
-            oscillator.connect(gain);
-            gain.connect(masterGain);
-
-            oscillator.start(now);
-            oscillator.stop(now + 0.6);
-
-            noteIndex = (noteIndex + 1) % melody.length;
-
-            clearTimeout(musicTimer);
-            musicTimer = setTimeout(playNextNote, 600);
-        }
-
-        function stopMusic() {
-            clearTimeout(musicTimer);
-            musicTimer = null;
-            noteIndex = 0;
-
-            if (masterGain && audioContext) {
-                const now = audioContext.currentTime;
-
-                masterGain.gain.cancelScheduledValues(now);
-                masterGain.gain.setValueAtTime(
-                    masterGain.gain.value,
-                    now
-                );
-                masterGain.gain.exponentialRampToValueAtTime(
-                    0.001,
-                    now + 0.15
-                );
-            }
-        }
-
-        /*
-         * Control del botón de música.
-         */
-        playButton.addEventListener('click', async () => {
-            const isPlaying =
-                playButton.getAttribute('aria-pressed') === 'true';
-
-            try {
-                if (isPlaying) {
-                    stopMusic();
-
-                    playButton.textContent = 'Reproducir música 🎶';
-                    playButton.setAttribute('aria-pressed', 'false');
-                    playButton.setAttribute(
-                        'aria-label',
-                        'Reproducir música'
-                    );
-                } else {
-                    await startMusic();
-
-                    if (masterGain && audioContext) {
-                        const now = audioContext.currentTime;
-
-                        masterGain.gain.cancelScheduledValues(now);
-                        masterGain.gain.setValueAtTime(0.055, now);
-                    }
-
-                    playButton.textContent = 'Pausar música ⏸️';
-                    playButton.setAttribute('aria-pressed', 'true');
-                    playButton.setAttribute(
-                        'aria-label',
-                        'Pausar música'
-                    );
-                }
-            } catch (error) {
-                console.error('No se pudo iniciar la música:', error);
-
-                playButton.textContent = 'Música no disponible ⚠️';
-                playButton.setAttribute('aria-pressed', 'false');
-            }
-        });
-
-        /*
-         * Evita gastar recursos si la pestaña no está visible.
-         */
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                cancelAnimationFrame(animationFrame);
-            } else {
-                animationFrame = requestAnimationFrame(animate);
-            }
-        });
-
-        /*
-         * Inicialización.
-         */
-        window.addEventListener('resize', () => {
-            resizeCanvas();
-            createParticles();
-        });
-
-        resizeCanvas();
-        createParticles();
-        animate();
+        iniciarLluviaDeFlores();
     </script>
 </body>
-    </html>
+</html>
