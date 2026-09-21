@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Flores amarillas 2.0 para una persona muy especial."
+    >
+
+    <title>Flores amarillas 2.0 💛</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inclusive+Sans:ital@0;1&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+        :root {
+            --amarillo: #ffd447;
+            --amarillo-claro: #ffe98a;
+            --verde: #4f9d69;
+            --verde-oscuro: #28613d;
+            --fondo: #fffaf0;
+            --texto: #493b25;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            min-width: 320px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+            color: var(--texto);
+            background:
+                radial-gradient(
+                    circle at top,
+                    #fff4b8 0,
+                    transparent 35%
+                ),
+                var(--fondo);
+            font-family: "Inclusive Sans", sans-serif;
+            text-align: center;
+        }
+
+        button {
+            font: inherit;
+        }
+
+        .inicio {
+            min-height: 110px;
+            display: grid;
+            place-items: center;
+        }
+
+        .boton {
+            border: 0;
+            border-radius: 999px;
+            padding: 12px 24px;
+            color: #fff;
+            background: var(--verde);
+            box-shadow: 0 5px 12px rgb(40 97 61 / 25%);
+            cursor: pointer;
+            transition:
+                transform 0.2s ease,
+                background-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .boton:hover,
+        .boton:focus-visible {
+            background: var(--verde-oscuro);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgb(40 97 61 / 30%);
+        }
+
+        .boton:focus-visible {
+            outline: 3px solid #f2b705;
+            outline-offset: 3px;
+        }
+
+        .modal {
+            position: fixed;
+            z-index: 10;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            padding: 20px;
+            background: rgb(0 0 0 / 45%);
+        }
+
+        .modal[hidden] {
+            display: none;
+        }
+
+        .mensaje {
+            width: min(100%, 460px);
+            padding: 30px;
+            border: 3px solid var(--amarillo);
+            border-radius: 24px;
+            background: #fff;
+            box-shadow: 0 18px 45px rgb(0 0 0 / 25%);
+        }
+
+        .mensaje h2 {
+            margin-top: 0;
+            color: var(--verde-oscuro);
+        }
+
+        .mensaje p {
+            line-height: 1.6;
+        }
+
+        .opciones {
+            margin: 25px auto 10px;
+        }
+
+        .opciones h2 {
+            color: var(--verde-oscuro);
+        }
+
+        .botones {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .contenedor {
+            width: min(100%, 850px);
+            margin: 20px auto 0;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: auto;
+            min-height: 280px;
+            border-radius: 24px;
+            background:
+                linear-gradient(
+                    #bde9ff 0%,
+                    #e9f9ff 58%,
+                    #96d178 58%,
+                    #78bd5d 100%
+                );
+            box-shadow: 0 12px 28px rgb(40 97 61 / 18%);
+        }
+
+        .texto {
+            margin-top: 22px;
+        }
+
+        .texto h2 {
+            margin: 0;
+            color: var(--verde-oscuro);
+            font-size: clamp(1.3rem, 4vw, 2rem);
+        }
+
+        .noscript {
+            color: #a33;
+        }
+
+        .oculto {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 14px;
+            }
+
+            .mensaje {
+                padding: 24px 18px;
+            }
+
+            canvas {
+                min-height: 240px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="inicio">
+        <h1 class="oculto">Flores amarillas 2.0</h1>
+
+        <button
+            class="boton"
+            id="mostrarMensaje"
+            type="button"
+            aria-controls="mensajeInicial"
+            aria-expanded="false"
+        >
+            Click aquí
+        </button>
+    </header>
+
+    <div
+        class="modal"
+        id="mensajeInicial"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="tituloMensaje"
+        aria-describedby="textoMensaje"
+        hidden
+    >
+        <div class="mensaje">
+            <h2 id="tituloMensaje">Un mensaje para ti 💛</h2>
+
+            <p id="textoMensaje">
+                Hola, antes de iniciar, quiero recordarte que eres muy
+                especial para mí. Gracias por todo. &lt;3
+            </p>
+
+            <button
+                class="boton"
+                id="cerrarMensaje"
+                type="button"
+            >
+                Cerrar
+            </button>
+        </div>
+    </div>
+
+    <main>
+        <section class="opciones" aria-labelledby="tituloOpciones">
+            <h2 id="tituloOpciones">Elige una opción</h2>
+
+            <div class="botones">
+                <button class="boton" id="unaFlor" type="button">
+                    1 flor
+                </button>
+
+                <button class="boton" id="doceFlores" type="button">
+                    12 flores :)
+                </button>
+            </div>
+        </section>
+
+        <section class="contenedor" aria-labelledby="tituloFinal">
+            <canvas
+                id="lienzoFlores"
+                width="800"
+                height="520"
+                aria-label="Animación de flores amarillas"
+            >
+                Tu navegador no soporta el elemento canvas.
+            </canvas>
+
+            <div class="texto">
+                <h2 id="tituloFinal">
+                    Para la niña más linda del mundo.
+                </h2>
+            </div>
+        </section>
+    </main>
+
+    <noscript>
+        <p class="noscript">
+            Necesitas activar JavaScript para ver las flores animadas.
+        </p>
+    </noscript>
+
+    <script>
+        "use strict";
+
+        const modal = document.getElementById("mensajeInicial");
+        const mostrarMensaje = document.getElementById("mostrarMensaje");
+        const cerrarMensaje = document.getElementById("cerrarMensaje");
+        const unaFlor = document.getElementById("unaFlor");
+        const doceFlores = document.getElementById("doceFlores");
+        const tituloFinal = document.getElementById("tituloFinal");
+        const canvas = document.getElementById("lienzoFlores");
+        const ctx = canvas.getContext("2d");
+
+        const reducirMovimiento = window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches;
+
+        let flores = [];
+        let animacion;
+        let cantidadActual = 1;
+
+        function abrirModal() {
+            modal.hidden = false;
+            mostrarMensaje.setAttribute("aria-expanded", "true");
+            cerrarMensaje.focus();
+        }
+
+        function cerrarModal() {
+            modal.hidden = true;
+            mostrarMensaje.setAttribute("aria-expanded", "false");
+            mostrarMensaje.focus();
+        }
+
+        mostrarMensaje.addEventListener("click", abrirModal);
+        cerrarMensaje.addEventListener("click", cerrarModal);
+
+        modal.addEventListener("click", (evento) => {
+            if (evento.target === modal) {
+                cerrarModal();
+            }
+        });
+
+        document.addEventListener("keydown", (evento) => {
+            if (evento.key === "Escape" && !modal.hidden) {
+                cerrarModal();
+            }
+        });
+
+        function ajustarCanvas() {
+            const escala = window.devicePixelRatio || 1;
+            const ancho = canvas.clientWidth || 800;
+            const alto = Math.max(280, Math.round(ancho * 0.65));
+
+            canvas.width = Math.round(ancho * escala);
+            canvas.height = Math.round(alto * escala);
+            canvas.style.height = `${alto}px`;
+
+            ctx.setTransform(escala, 0, 0, escala, 0, 0);
+        }
+
+        function crearFlor(x, y, escala) {
+            return {
+                x,
+                y,
+                escala,
+                fase: Math.random() * Math.PI * 2,
+                velocidad: 0.01 + Math.random() * 0.015
+            };
+        }
+
+        function crearFlores(cantidad) {
+            const ancho = canvas.clientWidth || 800;
+            const alto = parseFloat(canvas.style.height) || 520;
+
+            flores = [];
+
+            for (let i = 0; i < cantidad; i += 1) {
+                const posicion = cantidad === 1
+                    ? 0.5
+                    : (i + 0.5) / cantidad;
+
+                flores.push(
+                    crearFlor(
+                        ancho * posicion,
+                        alto * 0.73,
+                        cantidad === 1
+                            ? 1.25
+                            : 0.55 + Math.random() * 0.25
+                    )
+                );
+            }
+        }
+
+        function dibujarFlor(flor, tiempo) {
+            const movimiento = reducirMovimiento
+                ? 0
+                : Math.sin(
+                    tiempo * flor.velocidad + flor.fase
+                ) * 8;
+
+            const x = flor.x + movimiento;
+            const y = flor.y;
+            const altoTallo = 145 * flor.escala;
+
+            ctx.save();
+            ctx.translate(x, y);
+
+            ctx.strokeStyle = "#39834f";
+            ctx.lineWidth = Math.max(3, 6 * flor.escala);
+            ctx.lineCap = "round";
+
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.quadraticCurveTo(
+                -movimiento * 0.5,
+                -altoTallo / 2,
+                0,
+                -altoTallo
+            );
+            ctx.stroke();
+
+            ctx.fillStyle = "#4f9d69";
+            ctx.beginPath();
+            ctx.ellipse(
+                -24 * flor.escala,
+                -altoTallo * 0.45,
+                28 * flor.escala,
+                10 * flor.escala,
+                -0.4,
+                0,
+                Math.PI * 2
+            );
+            ctx.fill();
+
+            ctx.translate(0, -altoTallo);
+
+            const petalos = 12;
+            const largoPetalo = 38 * flor.escala;
+
+            for (let i = 0; i < petalos; i += 1) {
+                ctx.save();
+                ctx.rotate((Math.PI * 2 * i) / petalos);
+                ctx.fillStyle = i % 2 === 0
+                    ? "#ffd447"
+                    : "#ffdf68";
+
+                ctx.beginPath();
+                ctx.ellipse(
+                    0,
+                    -largoPetalo * 0.65,
+                    13 * flor.escala,
+                    largoPetalo,
+                    0,
+                    0,
+                    Math.PI * 2
+                );
+                ctx.fill();
+                ctx.restore();
+            }
+
+            ctx.fillStyle = "#9b6413";
+            ctx.beginPath();
+            ctx.arc(0, 0, 18 * flor.escala, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.restore();
+        }
+
+        function dibujar(tiempo = 0) {
+            const ancho = canvas.clientWidth || 800;
+            const alto = parseFloat(canvas.style.height) || 520;
+
+            ctx.clearRect(0, 0, ancho, alto);
+
+            flores.forEach((flor) => {
+                dibujarFlor(flor, tiempo);
+            });
+
+            if (!reducirMovimiento) {
+                animacion = requestAnimationFrame(dibujar);
+            }
+        }
+
+        function mostrarFlores(cantidad) {
+            cantidadActual = cantidad;
+
+            if (animacion) {
+                cancelAnimationFrame(animacion);
+            }
+
+            crearFlores(cantidad);
+            dibujar();
+
+            if (!reducirMovimiento) {
+                animacion = requestAnimationFrame(dibujar);
+            }
+        }
+
+        unaFlor.addEventListener("click", () => {
+            mostrarFlores(1);
+            tituloFinal.textContent =
+                "Para la niña más linda del mundo.";
+        });
+
+        doceFlores.addEventListener("click", () => {
+            mostrarFlores(12);
+            tituloFinal.textContent =
+                "Doce flores para alguien muy especial. 💛";
+        });
+
+        window.addEventListener("resize", () => {
+            ajustarCanvas();
+            crearFlores(cantidadActual);
+            dibujar();
+        });
+
+        ajustarCanvas();
+        mostrarFlores(1);
+    </script>
+
+</body>
+  </html>
