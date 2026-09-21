@@ -3,207 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#050505">
 
-    <meta
-        name="description"
-        content="Flores amarillas 2.0 para una persona muy especial."
-    >
-
-    <title>Flores amarillas 2.0 💛</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inclusive+Sans:ital@0;1&display=swap"
-        rel="stylesheet"
-    >
+    <title>Galaxia de Flores Amarillas</title>
 
     <style>
         :root {
-            --amarillo: #ffd447;
-            --amarillo-claro: #ffe98a;
-            --verde: #4f9d69;
-            --verde-oscuro: #28613d;
-            --fondo: #fffaf0;
-            --texto: #493b25;
+            --amarillo: #ffe600;
+            --amarillo-secundario: #ffb700;
+            --fondo: #050505;
         }
 
         * {
             box-sizing: border-box;
         }
 
-        html {
-            min-width: 320px;
-            scroll-behavior: smooth;
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            background: var(--fondo);
+            font-family: Arial, sans-serif;
         }
 
         body {
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            overflow-x: hidden;
-            color: var(--texto);
-            background:
-                radial-gradient(
-                    circle at top,
-                    #fff4b8 0,
-                    transparent 35%
-                ),
-                var(--fondo);
-            font-family: "Inclusive Sans", sans-serif;
-            text-align: center;
-        }
-
-        button {
-            font: inherit;
-        }
-
-        .inicio {
-            min-height: 110px;
-            display: grid;
-            place-items: center;
-        }
-
-        .boton {
-            border: 0;
-            border-radius: 999px;
-            padding: 12px 24px;
-            color: #fff;
-            background: var(--verde);
-            box-shadow: 0 5px 12px rgb(40 97 61 / 25%);
-            cursor: pointer;
-            transition:
-                transform 0.2s ease,
-                background-color 0.2s ease,
-                box-shadow 0.2s ease;
-        }
-
-        .boton:hover,
-        .boton:focus-visible {
-            background: var(--verde-oscuro);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgb(40 97 61 / 30%);
-        }
-
-        .boton:focus-visible {
-            outline: 3px solid #f2b705;
-            outline-offset: 3px;
-        }
-
-        .modal {
-            position: fixed;
-            z-index: 10;
-            inset: 0;
-            display: grid;
-            place-items: center;
-            padding: 20px;
-            background: rgb(0 0 0 / 45%);
-        }
-
-        .modal[hidden] {
-            display: none;
-        }
-
-        .mensaje {
-            width: min(100%, 460px);
-            padding: 30px;
-            border: 3px solid var(--amarillo);
-            border-radius: 24px;
-            background: #fff;
-            box-shadow: 0 18px 45px rgb(0 0 0 / 25%);
-        }
-
-        .mensaje h2 {
-            margin-top: 0;
-            color: var(--verde-oscuro);
-        }
-
-        .mensaje p {
-            line-height: 1.6;
-        }
-
-        .opciones {
-            margin: 25px auto 10px;
-        }
-
-        .opciones h2 {
-            color: var(--verde-oscuro);
-        }
-
-        .botones {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 14px;
-        }
-
-        .contenedor {
-            width: min(100%, 850px);
-            margin: 20px auto 0;
+            position: relative;
         }
 
         canvas {
+            position: fixed;
+            inset: 0;
             display: block;
             width: 100%;
-            height: auto;
-            min-height: 280px;
-            border-radius: 24px;
-            background:
-                linear-gradient(
-                    #bde9ff 0%,
-                    #e9f9ff 58%,
-                    #96d178 58%,
-                    #78bd5d 100%
-                );
-            box-shadow: 0 12px 28px rgb(40 97 61 / 18%);
+            height: 100%;
+            background: var(--fondo);
         }
 
-        .texto {
-            margin-top: 22px;
+        .contenido {
+            position: fixed;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
         }
 
-        .texto h2 {
-            margin: 0;
-            color: var(--verde-oscuro);
-            font-size: clamp(1.3rem, 4vw, 2rem);
-        }
-
-        .noscript {
-            color: #a33;
-        }
-
-        .oculto {
+        #play-btn {
             position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+
             border: 0;
+            border-radius: 999px;
+            padding: 12px 22px;
+
+            color: #171000;
+            background: var(--amarillo);
+
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            pointer-events: auto;
+
+            box-shadow:
+                0 0 12px rgba(255, 230, 0, 0.55),
+                0 0 25px rgba(255, 230, 0, 0.2);
+
+            transition:
+                background 0.25s ease,
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
         }
 
-        @media (max-width: 600px) {
-            body {
-                padding: 14px;
-            }
+        #play-btn:hover {
+            background: #fff;
+            transform: translateX(-50%) scale(1.05);
+            box-shadow:
+                0 0 18px rgba(255, 230, 0, 0.8),
+                0 0 35px rgba(255, 230, 0, 0.35);
+        }
 
-            .mensaje {
-                padding: 24px 18px;
-            }
+        #play-btn:focus-visible {
+            outline: 3px solid white;
+            outline-offset: 4px;
+        }
 
-            canvas {
-                min-height: 240px;
-            }
+        #message {
+            position: absolute;
+            bottom: 22px;
+            left: 0;
+            width: 100%;
+            padding: 0 15px;
+
+            color: var(--amarillo);
+            text-align: center;
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            letter-spacing: 2px;
+            line-height: 1.4;
+            text-shadow: 0 0 10px rgba(255, 230, 0, 0.85);
         }
 
         @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                scroll-behavior: auto !important;
-                transition-duration: 0.01ms !important;
+            #play-btn {
+                transition: none;
             }
         }
     </style>
@@ -211,304 +114,305 @@
 
 <body>
 
-    <header class="inicio">
-        <h1 class="oculto">Flores amarillas 2.0</h1>
+    <canvas id="galaxyCanvas" aria-hidden="true"></canvas>
 
+    <div class="contenido">
         <button
-            class="boton"
-            id="mostrarMensaje"
+            id="play-btn"
             type="button"
-            aria-controls="mensajeInicial"
-            aria-expanded="false"
-        >
-            Click aquí
+            aria-pressed="false"
+            aria-label="Reproducir música">
+            Reproducir música 🎶
         </button>
-    </header>
 
-    <div
-        class="modal"
-        id="mensajeInicial"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="tituloMensaje"
-        aria-describedby="textoMensaje"
-        hidden
-    >
-        <div class="mensaje">
-            <h2 id="tituloMensaje">Un mensaje para ti 💛</h2>
-
-            <p id="textoMensaje">
-                Hola, antes de iniciar, quiero recordarte que eres muy
-                especial para mí. Gracias por todo. &lt;3
-            </p>
-
-            <button
-                class="boton"
-                id="cerrarMensaje"
-                type="button"
-            >
-                Cerrar
-            </button>
+        <div id="message">
+            Para ti, un rincón de estrellas y flores amarillas 🌻
         </div>
     </div>
 
-    <main>
-        <section class="opciones" aria-labelledby="tituloOpciones">
-            <h2 id="tituloOpciones">Elige una opción</h2>
-
-            <div class="botones">
-                <button class="boton" id="unaFlor" type="button">
-                    1 flor
-                </button>
-
-                <button class="boton" id="doceFlores" type="button">
-                    12 flores :)
-                </button>
-            </div>
-        </section>
-
-        <section class="contenedor" aria-labelledby="tituloFinal">
-            <canvas
-                id="lienzoFlores"
-                width="800"
-                height="520"
-                aria-label="Animación de flores amarillas"
-            >
-                Tu navegador no soporta el elemento canvas.
-            </canvas>
-
-            <div class="texto">
-                <h2 id="tituloFinal">
-                    Para la niña más linda del mundo.
-                </h2>
-            </div>
-        </section>
-    </main>
-
-    <noscript>
-        <p class="noscript">
-            Necesitas activar JavaScript para ver las flores animadas.
-        </p>
-    </noscript>
-
     <script>
-        "use strict";
+        'use strict';
 
-        const modal = document.getElementById("mensajeInicial");
-        const mostrarMensaje = document.getElementById("mostrarMensaje");
-        const cerrarMensaje = document.getElementById("cerrarMensaje");
-        const unaFlor = document.getElementById("unaFlor");
-        const doceFlores = document.getElementById("doceFlores");
-        const tituloFinal = document.getElementById("tituloFinal");
-        const canvas = document.getElementById("lienzoFlores");
-        const ctx = canvas.getContext("2d");
+        const canvas = document.getElementById('galaxyCanvas');
+        const ctx = canvas.getContext('2d', { alpha: false });
 
-        const reducirMovimiento = window.matchMedia(
-            "(prefers-reduced-motion: reduce)"
-        ).matches;
+        const playButton = document.getElementById('play-btn');
 
-        let flores = [];
-        let animacion;
-        let cantidadActual = 1;
+        const particles = [];
+        const PARTICLE_COUNT = 300;
 
-        function abrirModal() {
-            modal.hidden = false;
-            mostrarMensaje.setAttribute("aria-expanded", "true");
-            cerrarMensaje.focus();
+        let width = 0;
+        let height = 0;
+        let centerX = 0;
+        let centerY = 0;
+        let pixelRatio = 1;
+        let animationFrame = 0;
+
+        /*
+         * Ajusta el canvas para pantallas normales y Retina.
+         */
+        function resizeCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+
+            pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+
+            canvas.width = Math.floor(width * pixelRatio);
+            canvas.height = Math.floor(height * pixelRatio);
+
+            canvas.style.width = `${width}px`;
+            canvas.style.height = `${height}px`;
+
+            ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+
+            centerX = width / 2;
+            centerY = height / 2;
         }
 
-        function cerrarModal() {
-            modal.hidden = true;
-            mostrarMensaje.setAttribute("aria-expanded", "false");
-            mostrarMensaje.focus();
-        }
+        /*
+         * Crea las flores distribuidas alrededor del centro.
+         */
+        function createParticles() {
+            particles.length = 0;
 
-        mostrarMensaje.addEventListener("click", abrirModal);
-        cerrarMensaje.addEventListener("click", cerrarModal);
+            const maxRadius = Math.hypot(width / 2, height / 2);
 
-        modal.addEventListener("click", (evento) => {
-            if (evento.target === modal) {
-                cerrarModal();
-            }
-        });
-
-        document.addEventListener("keydown", (evento) => {
-            if (evento.key === "Escape" && !modal.hidden) {
-                cerrarModal();
-            }
-        });
-
-        function ajustarCanvas() {
-            const escala = window.devicePixelRatio || 1;
-            const ancho = canvas.clientWidth || 800;
-            const alto = Math.max(280, Math.round(ancho * 0.65));
-
-            canvas.width = Math.round(ancho * escala);
-            canvas.height = Math.round(alto * escala);
-            canvas.style.height = `${alto}px`;
-
-            ctx.setTransform(escala, 0, 0, escala, 0, 0);
-        }
-
-        function crearFlor(x, y, escala) {
-            return {
-                x,
-                y,
-                escala,
-                fase: Math.random() * Math.PI * 2,
-                velocidad: 0.01 + Math.random() * 0.015
-            };
-        }
-
-        function crearFlores(cantidad) {
-            const ancho = canvas.clientWidth || 800;
-            const alto = parseFloat(canvas.style.height) || 520;
-
-            flores = [];
-
-            for (let i = 0; i < cantidad; i += 1) {
-                const posicion = cantidad === 1
-                    ? 0.5
-                    : (i + 0.5) / cantidad;
-
-                flores.push(
-                    crearFlor(
-                        ancho * posicion,
-                        alto * 0.73,
-                        cantidad === 1
-                            ? 1.25
-                            : 0.55 + Math.random() * 0.25
-                    )
-                );
+            for (let i = 0; i < PARTICLE_COUNT; i++) {
+                particles.push({
+                    angle: Math.random() * Math.PI * 2,
+                    radius: Math.random() * maxRadius,
+                    size: Math.random() * 2.2 + 0.8,
+                    speed: Math.random() * 0.0018 + 0.0006,
+                    color: Math.random() > 0.3
+                        ? '#ffe600'
+                        : '#ffb700',
+                    opacity: Math.random() * 0.5 + 0.5
+                });
             }
         }
 
-        function dibujarFlor(flor, tiempo) {
-            const movimiento = reducirMovimiento
-                ? 0
-                : Math.sin(
-                    tiempo * flor.velocidad + flor.fase
-                ) * 8;
-
-            const x = flor.x + movimiento;
-            const y = flor.y;
-            const altoTallo = 145 * flor.escala;
-
+        /*
+         * Dibuja una flor de cinco pétalos.
+         */
+        function drawFlower(x, y, size, color, opacity) {
             ctx.save();
+
             ctx.translate(x, y);
+            ctx.globalAlpha = opacity;
+            ctx.fillStyle = color;
 
-            ctx.strokeStyle = "#39834f";
-            ctx.lineWidth = Math.max(3, 6 * flor.escala);
-            ctx.lineCap = "round";
-
-            ctx.beginPath();
-            ctx.moveTo(0, 0);
-            ctx.quadraticCurveTo(
-                -movimiento * 0.5,
-                -altoTallo / 2,
-                0,
-                -altoTallo
-            );
-            ctx.stroke();
-
-            ctx.fillStyle = "#4f9d69";
-            ctx.beginPath();
-            ctx.ellipse(
-                -24 * flor.escala,
-                -altoTallo * 0.45,
-                28 * flor.escala,
-                10 * flor.escala,
-                -0.4,
-                0,
-                Math.PI * 2
-            );
-            ctx.fill();
-
-            ctx.translate(0, -altoTallo);
-
-            const petalos = 12;
-            const largoPetalo = 38 * flor.escala;
-
-            for (let i = 0; i < petalos; i += 1) {
+            for (let i = 0; i < 5; i++) {
                 ctx.save();
-                ctx.rotate((Math.PI * 2 * i) / petalos);
-                ctx.fillStyle = i % 2 === 0
-                    ? "#ffd447"
-                    : "#ffdf68";
+
+                ctx.rotate((Math.PI * 2 * i) / 5);
 
                 ctx.beginPath();
                 ctx.ellipse(
                     0,
-                    -largoPetalo * 0.65,
-                    13 * flor.escala,
-                    largoPetalo,
+                    size * 0.9,
+                    size * 0.65,
+                    size * 1.15,
                     0,
                     0,
                     Math.PI * 2
                 );
                 ctx.fill();
+
                 ctx.restore();
             }
 
-            ctx.fillStyle = "#9b6413";
             ctx.beginPath();
-            ctx.arc(0, 0, 18 * flor.escala, 0, Math.PI * 2);
+            ctx.fillStyle = '#654321';
+            ctx.arc(0, 0, size * 0.55, 0, Math.PI * 2);
             ctx.fill();
 
             ctx.restore();
         }
 
-        function dibujar(tiempo = 0) {
-            const ancho = canvas.clientWidth || 800;
-            const alto = parseFloat(canvas.style.height) || 520;
+        /*
+         * Dibuja y anima la galaxia.
+         */
+        function animate() {
+            ctx.globalAlpha = 1;
+            ctx.fillStyle = 'rgba(5, 5, 5, 0.2)';
+            ctx.fillRect(0, 0, width, height);
 
-            ctx.clearRect(0, 0, ancho, alto);
+            for (const particle of particles) {
+                particle.angle += particle.speed;
 
-            flores.forEach((flor) => {
-                dibujarFlor(flor, tiempo);
-            });
+                const x = centerX + Math.cos(particle.angle) * particle.radius;
+                const y = centerY + Math.sin(particle.angle) * particle.radius;
 
-            if (!reducirMovimiento) {
-                animacion = requestAnimationFrame(dibujar);
+                drawFlower(
+                    x,
+                    y,
+                    particle.size,
+                    particle.color,
+                    particle.opacity
+                );
+            }
+
+            animationFrame = requestAnimationFrame(animate);
+        }
+
+        /*
+         * Música generada con Web Audio API.
+         * Así no dependemos de un enlace MP3 externo.
+         */
+        let audioContext = null;
+        let masterGain = null;
+        let musicTimer = null;
+        let noteIndex = 0;
+
+        const melody = [
+            261.63, 329.63, 392.00, 523.25,
+            392.00, 329.63, 293.66, 349.23,
+            440.00, 523.25, 440.00, 349.23,
+            392.00, 329.63, 293.66, 261.63
+        ];
+
+        function startMusic() {
+            if (!audioContext) {
+                const AudioContextClass =
+                    window.AudioContext || window.webkitAudioContext;
+
+                if (!AudioContextClass) {
+                    throw new Error(
+                        'Este navegador no soporta Web Audio API.'
+                    );
+                }
+
+                audioContext = new AudioContextClass();
+
+                masterGain = audioContext.createGain();
+                masterGain.gain.value = 0.055;
+                masterGain.connect(audioContext.destination);
+            }
+
+            if (audioContext.state === 'suspended') {
+                return audioContext.resume().then(() => {
+                    playNextNote();
+                });
+            }
+
+            playNextNote();
+            return Promise.resolve();
+        }
+
+        function playNextNote() {
+            if (!audioContext || !masterGain) {
+                return;
+            }
+
+            const oscillator = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+
+            const now = audioContext.currentTime;
+            const frequency = melody[noteIndex];
+
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(frequency, now);
+
+            gain.gain.setValueAtTime(0, now);
+            gain.gain.linearRampToValueAtTime(0.7, now + 0.03);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
+
+            oscillator.connect(gain);
+            gain.connect(masterGain);
+
+            oscillator.start(now);
+            oscillator.stop(now + 0.6);
+
+            noteIndex = (noteIndex + 1) % melody.length;
+
+            clearTimeout(musicTimer);
+            musicTimer = setTimeout(playNextNote, 600);
+        }
+
+        function stopMusic() {
+            clearTimeout(musicTimer);
+            musicTimer = null;
+            noteIndex = 0;
+
+            if (masterGain && audioContext) {
+                const now = audioContext.currentTime;
+
+                masterGain.gain.cancelScheduledValues(now);
+                masterGain.gain.setValueAtTime(
+                    masterGain.gain.value,
+                    now
+                );
+                masterGain.gain.exponentialRampToValueAtTime(
+                    0.001,
+                    now + 0.15
+                );
             }
         }
 
-        function mostrarFlores(cantidad) {
-            cantidadActual = cantidad;
+        /*
+         * Control del botón de música.
+         */
+        playButton.addEventListener('click', async () => {
+            const isPlaying =
+                playButton.getAttribute('aria-pressed') === 'true';
 
-            if (animacion) {
-                cancelAnimationFrame(animacion);
+            try {
+                if (isPlaying) {
+                    stopMusic();
+
+                    playButton.textContent = 'Reproducir música 🎶';
+                    playButton.setAttribute('aria-pressed', 'false');
+                    playButton.setAttribute(
+                        'aria-label',
+                        'Reproducir música'
+                    );
+                } else {
+                    await startMusic();
+
+                    if (masterGain && audioContext) {
+                        const now = audioContext.currentTime;
+
+                        masterGain.gain.cancelScheduledValues(now);
+                        masterGain.gain.setValueAtTime(0.055, now);
+                    }
+
+                    playButton.textContent = 'Pausar música ⏸️';
+                    playButton.setAttribute('aria-pressed', 'true');
+                    playButton.setAttribute(
+                        'aria-label',
+                        'Pausar música'
+                    );
+                }
+            } catch (error) {
+                console.error('No se pudo iniciar la música:', error);
+
+                playButton.textContent = 'Música no disponible ⚠️';
+                playButton.setAttribute('aria-pressed', 'false');
             }
+        });
 
-            crearFlores(cantidad);
-            dibujar();
-
-            if (!reducirMovimiento) {
-                animacion = requestAnimationFrame(dibujar);
+        /*
+         * Evita gastar recursos si la pestaña no está visible.
+         */
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                cancelAnimationFrame(animationFrame);
+            } else {
+                animationFrame = requestAnimationFrame(animate);
             }
-        }
-
-        unaFlor.addEventListener("click", () => {
-            mostrarFlores(1);
-            tituloFinal.textContent =
-                "Para la niña más linda del mundo.";
         });
 
-        doceFlores.addEventListener("click", () => {
-            mostrarFlores(12);
-            tituloFinal.textContent =
-                "Doce flores para alguien muy especial. 💛";
+        /*
+         * Inicialización.
+         */
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            createParticles();
         });
 
-        window.addEventListener("resize", () => {
-            ajustarCanvas();
-            crearFlores(cantidadActual);
-            dibujar();
-        });
-
-        ajustarCanvas();
-        mostrarFlores(1);
+        resizeCanvas();
+        createParticles();
+        animate();
     </script>
-
 </body>
-  </html>
+    </html>
